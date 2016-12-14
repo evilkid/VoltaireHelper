@@ -11,9 +11,21 @@
         "js": ["jquery.js", "background.js"],
         "matches": ["http://*/*", "https://*/*"]
     }],
-	"icons" : {
-			"16" : "icon-16.png",
-			"48" : "icon-48.png",
-			"128" : "icon-128.png"
-		}
+	"background":{
+		"scripts": ["commands.js", "jquery.js"],
+		"persistent": true
+    },
+    "icons": {
+        "16": "icon-16.png",
+        "48": "icon-48.png",
+        "128": "icon-128.png"
+    },
+    "commands": {
+        "toggle-feature-foo": {
+            "suggested_key": {
+                "default": "Ctrl+Q"
+            },
+            "description": "Toggle feature foo"
+        }
+    }
 }

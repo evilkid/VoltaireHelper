@@ -31,6 +31,9 @@ chrome.runtime.onMessage.addListener(
             sendResponse({
                 sentense: sentense
             });
+		}else if(request.state == "no_error_found"){
+			$(".appFooterLabel").css("color", "green"); 
+			setTimeout(function(){$(".appFooterLabel").css("color", "black"); }, 3000)
         }else{
 			console.log("words from background: " + request.data);
 			var pageWords = $(".pointAndClickSpan").filter(function(index, word){return word.innerText != " " && word.innerText != "'";});
@@ -71,3 +74,6 @@ chrome.runtime.onMessage.addListener(
 			}
 		}
     });
+	
+
+

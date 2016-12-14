@@ -1,5 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
-    chrome.tabs.query({
+chrome.commands.onCommand.addListener(function(command) {
+	
+	chrome.tabs.query({
         active: true,
         currentWindow: true
     }, function(tabs) {
@@ -20,7 +21,6 @@ function handleResponse(response) {
         method: 'POST',
         data: "<RequestData><details>" + response.sentense + "</details><userlogin>undefined</userlogin></RequestData>",
         success: function(data) {
-            console.log(data);
 
             var corrected = data.querySelector("corrected")
             var parser = new DOMParser();
@@ -36,12 +36,12 @@ function handleResponse(response) {
                 errors.sort(function(error1, error2) {
                     return Number(error2.getAttribute("proba")) - Number(error1.getAttribute("proba"));
                 }).forEach(function(error) {
-                    console.log(error);
+                   
                     var newDiv = $('<div></div>');
                     newDiv.append("type: " + error.getAttribute("type") + ", proba: " + error.getAttribute("proba") + "%");
                     newDiv.append("<br/>");
                     var newSpan = $("<span>" + phrase + "</span>");
-                    console.log(newSpan);
+                    
 
                     var start = Number(error.getAttribute("start"));
                     var end = Number(error.getAttribute("end"));
@@ -56,22 +56,19 @@ function handleResponse(response) {
                     var errorWord = phrase.substr(start, end - start);
 
                     errorWords.push(errorWord.trim().split((/'| /)));
-                    console.log("word: " + errorWord);
+                    
                 });
-
-                console.log(errorWords);
 
                 chrome.tabs.sendMessage(_tabs[0].id, {
                     data: errorWords
                 }, function(response) {});
             } else {
-                console.log("no error were found");
                 $("#div").append("no error were found");
+				
 				chrome.tabs.sendMessage(_tabs[0].id, {state: "no_error_found"});
             }
         },
         error: function(resp) {
-            console.log(resp);
         }
     });
 
