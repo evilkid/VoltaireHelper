@@ -22,7 +22,6 @@ chrome.runtime.onMessage.addListener(
             if (sentense.indexOf(". (") > 0) {
                 sentense = sentense.substr(0, sentense.indexOf(". (") + 1)
             }
-            console.log(typeof sentense);
 			sentense = sentense.replace("œ", "oe");
 
 
@@ -35,8 +34,8 @@ chrome.runtime.onMessage.addListener(
 			$(".appFooterLabel").css("color", "green"); 
 			setTimeout(function(){$(".appFooterLabel").css("color", "black"); }, 3000)
         }else{
-			console.log("words from background: " + request.data);
-			var pageWords = $(".pointAndClickSpan").filter(function(index, word){return word.innerText != " " && word.innerText != "'";});
+
+			var pageWords = $(".pointAndClickSpan").filter(function(index, word){return word.innerText && word.innerText != " " && word.innerText != "'" && word.innerText.charCodeAt(0) != 8209 ;});
 			
 			if(request.data){
 				request.data.forEach(function(words){
@@ -48,7 +47,7 @@ chrome.runtime.onMessage.addListener(
 									var change = true;
 									
 									for(var i = 1; i < words.length; i++){
-										console.log(pageWords.get(index + i).innerText);
+
 										if(pageWords.get(index + i).innerText != words[i]){
 											change = false;
 											continue;

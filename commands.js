@@ -55,7 +55,7 @@ function handleResponse(response) {
 
                     var errorWord = phrase.substr(start, end - start);
 
-                    errorWords.push(errorWord.trim().split((/'| /)));
+                    errorWords.push(errorWord.trim().split(/'|\u2011| |-/g));
                     
                 });
 
