@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "Voltaire Helper",
+    "version": "1",
+    "description": "Helps you with voltaire quiz",
+    "browser_action": {
+        "name": "Voltaire Helper",
+        "icons" : {
+			"48" : "icon-48.png",
+			"128" : "icon-128.png"
+		},
+        "default_icon": "icon-48.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "js": ["jquery.js", "background.js"],
+        "matches": ["http://*/*", "https://*/*"]
+    }]
+}
