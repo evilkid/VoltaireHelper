@@ -1,12 +1,29 @@
 chrome.commands.onCommand.addListener(function(command) {
 	
-	chrome.tabs.query({
-        active: true,
-        currentWindow: true
-    }, function(tabs) {
-		_tabs = tabs;
-        chrome.tabs.sendMessage(tabs[0].id, {state: "init"}, handleResponse);
-    });
+    if (command == "send-search-request") {
+		
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            _tabs = tabs;
+            chrome.tabs.sendMessage(tabs[0].id, {
+                state: "init"
+            }, handleResponse);
+        });
+    } else if (command == "toggle-builtin-help") {
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            _tabs = tabs;
+            chrome.tabs.sendMessage(tabs[0].id, {
+                state: "toggle-help"
+            });
+        });
+
+    }
+
 });
 
 var _tabs;
@@ -36,12 +53,12 @@ function handleResponse(response) {
                 errors.sort(function(error1, error2) {
                     return Number(error2.getAttribute("proba")) - Number(error1.getAttribute("proba"));
                 }).forEach(function(error) {
-                   
+
                     var newDiv = $('<div></div>');
                     newDiv.append("type: " + error.getAttribute("type") + ", proba: " + error.getAttribute("proba") + "%");
                     newDiv.append("<br/>");
                     var newSpan = $("<span>" + phrase + "</span>");
-                    
+
 
                     var start = Number(error.getAttribute("start"));
                     var end = Number(error.getAttribute("end"));
@@ -56,7 +73,7 @@ function handleResponse(response) {
                     var errorWord = phrase.substr(start, end - start);
 
                     errorWords.push(errorWord.trim().split(/'|\u2011| |-/g));
-                    
+
                 });
 
                 chrome.tabs.sendMessage(_tabs[0].id, {
@@ -64,12 +81,13 @@ function handleResponse(response) {
                 }, function(response) {});
             } else {
                 $("#div").append("no error were found");
-				
-				chrome.tabs.sendMessage(_tabs[0].id, {state: "no_error_found"});
+
+                chrome.tabs.sendMessage(_tabs[0].id, {
+                    state: "no_error_found"
+                });
             }
         },
-        error: function(resp) {
-        }
+        error: function(resp) {}
     });
 
 }

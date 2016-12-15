@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Voltaire Helper",
-    "version": "1",
+    "version": "1.1",
     "description": "Helps you with voltaire quiz",
     "browser_action": {
         "name": "Voltaire Helper",
@@ -21,11 +21,17 @@
         "128": "icon-128.png"
     },
     "commands": {
-        "toggle-feature-foo": {
+        "send-search-request": {
             "suggested_key": {
                 "default": "Ctrl+Q"
             },
-            "description": "Toggle feature foo"
+            "description": "Send a serach request to a web service"
+        },
+		"toggle-builtin-help": {
+            "suggested_key": {
+                "default": "Ctrl+Z"
+            },
+            "description": "Toggels the builtin help"
         }
     }
 }
